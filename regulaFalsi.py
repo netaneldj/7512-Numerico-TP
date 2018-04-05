@@ -8,7 +8,7 @@ def regula_falsi(f,inicio,fin,error):
 	
 def regula_falsi_rec(f,inicio,fin,error,raiz):
 	medio = calcular_medio(f,inicio,fin)
-	if(modulo(f(inicio))<=error or modulo(f(medio))<=error or modulo(f(fin))<=error):
+	if(abs(f(inicio))<=error or abs(f(medio))<=error or abs(f(fin))<=error):
 		raiz.append(medio)
 		return True
 	if(f(inicio)*f(medio)>0 and f(medio)*f(fin)>0):
@@ -21,11 +21,9 @@ def regula_falsi_rec(f,inicio,fin,error,raiz):
 def calcular_medio(f,inicio,fin):
 	return (fin*f(inicio)-inicio*f(fin))/(f(inicio)-f(fin))
 
-	
-def modulo(n):
-	if(n<0):
-		return -n
-	return n
+def verificar_intervalo(f,inicio,fin):
+	if((f(inicio)>0 and f(fin)>0) or (f(inicio)<0 and f(fin)<0)):
+		raise Exception("Intervalo invalido")
 
 def f(x):
 	'''return x*x/4 - math.sin(x)'''
