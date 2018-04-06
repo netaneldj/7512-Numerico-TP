@@ -1,5 +1,14 @@
 import math
 
+ERROR = math.pow(5,-17)
+#PADRON = 99093
+#L0 = 2*100000/PADRON
+L0 = 2.02 #Redondeado a 3 digitos significativos
+G = 9.81
+K = 10
+M = 0
+A = 1
+
 def regula_falsi(f,inicio,fin,error):
 	raiz = []
 	if(regula_falsi_rec(f,inicio,fin,error,raiz)):
@@ -25,11 +34,10 @@ def verificar_intervalo(f,inicio,fin):
 	if((f(inicio)>0 and f(fin)>0) or (f(inicio)<0 and f(fin)<0)):
 		raise Exception("Intervalo invalido")
 
-def f(x):
-	'''return x*x/4 - math.sin(x)'''
-	return math.sin(x)-0.5*math.sqrt(x) 
+def f(y):
+	return -2*K*y*(1-L0/math.sqrt(y*y+A*A))-M*G 
 	
 def main():
-	'''print(regula_falsi(f,1.5,2,0.02))'''
-	print(regula_falsi(f,0.000001,2,0.02))
+	print(regula_falsi(f,1,2,ERROR))
+
 main()

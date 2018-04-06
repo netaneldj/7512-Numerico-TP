@@ -1,5 +1,14 @@
 import math
 
+ERROR = math.pow(5,-17)
+#PADRON = 99093
+#L0 = 2*100000/PADRON
+L0 = 2.02 #Redondeado a 3 digitos significativos
+G = 9.81
+K = 10
+M = 0
+A = 1
+
 def newton_raphson(f,inicio,fin,error):
 	verificar_intervalo(f,inicio,fin)
 	verificar_derivada(derivada,inicio,fin)
@@ -42,21 +51,21 @@ def devolver_mismo_signo(f,a,b):
 	if(mismo_signo(f(a),a)):
 		return a
 	return b
-	
-def f(x):
-	return x*x*x - x*x + 2 
-
-def derivada(x):
-	return 3*x*x -2*x
-
-def doble_derivada(x):
-	return 6*x - 2
 
 def mismo_signo(a,b):
 	if((a>0 and b>0) or (a<0 and b<0)):
 		return True
 	return False
+	
+def f(y):
+	return -2*K*y*(1-L0/math.sqrt(y*y+A*A))-M*G 
+
+def derivada(y):
+	return -2*K*(1-L0/math.sqrt(y*y+A*A))-2*K*y*y*L0/math.pow(math.sqrt(y*y+A*A),3)
+
+def doble_derivada(y):
+	return 6*K*L0*y*((y*y)/(y*y+A*A)-1)/math.pow(math.sqrt(y*y+A*A),3)
 
 def main():
-	print(newton_raphson(f,-5,-0.5,0.000002))
+	print(newton_raphson(f,1,2,ERROR))
 main()
