@@ -1,6 +1,6 @@
 import math
 
-ERROR = math.pow(5,-17)
+ERROR = math.pow(5,-20) #De esta forma el resultado queda con 16 digitos significativos
 #PADRON = 99093
 #L0 = 2*100000/PADRON
 L0 = 2.02 #Redondeado a 3 digitos significativos
@@ -16,13 +16,12 @@ def newton_raphson(f,inicio,fin,error):
 	comienzo = devolver_mismo_signo(doble_derivada,inicio,fin)
 	raiz = []
 	if(newton_raphson_rec(f,derivada,comienzo,error,raiz)):
-		return raiz #[0]
+		return raiz
 	
 def newton_raphson_rec(f,derivada,comienzo,error,raiz):
 	medio = calcular_medio(f,derivada,comienzo)
 	raiz.append(medio)
-	if(abs(f(medio))<=error):
-		#raiz.append(medio)
+	if(abs(f(medio))<error):
 		return True
 	newton_raphson_rec(f,derivada,medio,error,raiz)
 	return True

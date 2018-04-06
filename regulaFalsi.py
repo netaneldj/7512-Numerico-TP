@@ -1,6 +1,6 @@
 import math
 
-ERROR = math.pow(5,-17)
+ERROR = math.pow(5,-20) #De esta forma el resultado queda con 16 digitos significativos
 #PADRON = 99093
 #L0 = 2*100000/PADRON
 L0 = 2.02 #Redondeado a 3 digitos significativos
@@ -12,14 +12,13 @@ A = 1
 def regula_falsi(f,inicio,fin,error):
 	raiz = []
 	if(regula_falsi_rec(f,inicio,fin,error,raiz)):
-		return raiz #[0]
+		return raiz
 	raise ValueError("No hay raiz")	
 	
 def regula_falsi_rec(f,inicio,fin,error,raiz):
 	medio = calcular_medio(f,inicio,fin)
 	raiz.append(medio)
-	if(abs(f(inicio))<=error or abs(f(medio))<=error or abs(f(fin))<=error):
-		#raiz.append(medio)
+	if(abs(f(inicio))<error or abs(f(medio))<error or abs(f(fin))<error):
 		return True
 	if(f(inicio)*f(medio)>0 and f(medio)*f(fin)>0):
 		return False

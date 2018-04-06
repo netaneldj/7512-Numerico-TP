@@ -1,6 +1,6 @@
 import math
 
-ERROR = math.pow(5,-17)
+ERROR = math.pow(5,-20) #De esta forma el resultado queda con 16 digitos significativos
 #PADRON = 99093
 #L0 = 2*100000/PADRON
 L0 = 2.02 #Redondeado a 3 digitos significativos
@@ -20,7 +20,7 @@ def punto_fijo(g,inicio,fin,error):
 		
 def punto_fijo_rec(g,comienzo,error,raiz):
 	raiz.append(comienzo)
-	if(abs(f(comienzo))<=ERROR):
+	if(abs(f(comienzo))<ERROR):
 		return True
 	medio = g(comienzo)
 	punto_fijo_rec(g,medio,error,raiz)
