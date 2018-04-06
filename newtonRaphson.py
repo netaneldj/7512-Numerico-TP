@@ -16,12 +16,13 @@ def newton_raphson(f,inicio,fin,error):
 	comienzo = devolver_mismo_signo(doble_derivada,inicio,fin)
 	raiz = []
 	if(newton_raphson_rec(f,derivada,comienzo,error,raiz)):
-		return raiz[0]
+		return raiz #[0]
 	
 def newton_raphson_rec(f,derivada,comienzo,error,raiz):
 	medio = calcular_medio(f,derivada,comienzo)
+	raiz.append(medio)
 	if(abs(f(medio))<=error):
-		raiz.append(medio)
+		#raiz.append(medio)
 		return True
 	newton_raphson_rec(f,derivada,medio,error,raiz)
 	return True
