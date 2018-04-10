@@ -18,7 +18,7 @@ def regula_falsi(f,inicio,fin,error):
 def regula_falsi_rec(f,inicio,fin,error,raiz):
 	medio = calcular_medio(f,inicio,fin)
 	raiz.append(medio)
-	if(abs(f(inicio))<error or abs(f(medio))<error or abs(f(fin))<error):
+	if(abs(f(medio))<error):
 		return True
 	if(f(inicio)*f(medio)>0 and f(medio)*f(fin)>0):
 		return False
@@ -35,6 +35,6 @@ def f(y):
 	return -2*K*y*(1-L0/math.sqrt(y*y+A*A))-M*G 
 	
 def main():
-	print(regula_falsi(f,1,2,ERROR))
+	print(regula_falsi(f,-2,-1,ERROR))
 
 main()
