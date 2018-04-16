@@ -1,71 +1,81 @@
 import math
 
-ERROR = math.pow(5,-20) #De esta forma el resultado queda con 16 digitos significativos
-#PADRON = 99093
-#L0 = 2*100000/PADRON
-L0 = 2.02 #Redondeado a 3 digitos significativos
+ERROR = math.pow(5, -17)  # De esta forma el resultado queda con 16 digitos significativos
+VACIO = 10
+# PADRON = 99093
+# L0 = 2*100000/PADRON
+L0 = 2.02  # Redondeado a 3 digitos significativos
 G = 9.81
 K = 10
 M = 0
 A = 1
 
-def newton_raphson(f,inicio,fin,error):
-	verificar_intervalo(f,inicio,fin)
-	verificar_derivada(derivada,inicio,fin)
-	verificar_doble_derivada(doble_derivada,inicio,fin)
-	comienzo = devolver_mismo_signo(doble_derivada,inicio,fin)
+def newton_raphson(f, inicio, fin, error):
+	semilla = fin
 	raiz = []
-	if(newton_raphson_rec(f,derivada,comienzo,error,raiz)):
-		return raiz
+	raiz.append(semilla)
+	absError = []
+	absError.append(VACIO)
+	relError = []
+	relError.append(VACIO)
+	k = 1
+
+	newton_raphson_rec(f, derivada, semilla, raiz, absError, relError, k)
+
+	print raiz
+	print absError
+	print relError
+	p = calcular_exp_p(absError)
+	print p
+	print calcular_lambda(absError, p)
 	
-def newton_raphson_rec(f,derivada,comienzo,error,raiz):
-	medio = calcular_medio(f,derivada,comienzo)
-	raiz.append(medio)
-	if(abs(f(medio))<error):
-		return True
-	newton_raphson_rec(f,derivada,medio,error,raiz)
-	return True
+def newton_raphson_rec(f, derivada, comienzo, raiz, errorAbs, errorRel, k):
+
+	punto = calcular_proximo_punto(f, derivada, comienzo)
+	raiz.append(punto)
+
+	errorAbs.append(abs(raiz[k]-raiz[k-1]))
+	errorRel.append(abs(errorAbs[k]/(raiz[k]+pow(1, -20))))
+
+	if errorRel[k] < ERROR:
+		return
+
+	k = k+1
+	newton_raphson_rec(f, derivada, punto, raiz, errorAbs, errorRel, k)
+
 	
-def calcular_medio(f,derivada,xn):
+def calcular_proximo_punto(f, derivada, xn):
 	return xn-f(xn)/derivada(xn)
 
-def verificar_intervalo(f,inicio,fin):
-	if((f(inicio)>0 and f(fin)>0) or (f(inicio)<0 and f(fin)<0)):
-		raise Exception("Intervalo invalido")
-
-def verificar_derivada(derivada,inicio,fin):
-	try:
-		verificar_intervalo(derivada,inicio,fin)
-		raise Exception("Se anula la derivada en el intervalo")
-	except:
-		return
-		
-def verificar_doble_derivada(doble_derivada,inicio,fin):
-	try:
-		verificar_intervalo(doble_derivada,inicio,fin)
-		raise Exception("Cambia de signo la doble derivada")
-	except:
-		return
-			
-def devolver_mismo_signo(f,a,b):
-	if(mismo_signo(f(a),a)):
-		return a
-	return b
-
-def mismo_signo(a,b):
-	if((a>0 and b>0) or (a<0 and b<0)):
-		return True
-	return False
-	
 def f(y):
-	return -2*K*y*(1-L0/math.sqrt(y*y+A*A))-M*G 
+	return -2*K*y*(1-L0/math.sqrt(math.pow(y, 2)+math.pow(A, 2))-M*G)
 
 def derivada(y):
-	return -2*K*(1-L0/math.sqrt(y*y+A*A))-2*K*y*y*L0/math.pow(math.sqrt(y*y+A*A),3)
+	return -2*K*(1-L0/math.sqrt(math.pow(y, 2)+math.pow(A, 2))+y*L0/(2*math.pow(math.sqrt(math.pow(y, 2)+math.pow(A, 2)), 3)))
 
-def doble_derivada(y):
-	return 6*K*L0*y*((y*y)/(y*y+A*A)-1)/math.pow(math.sqrt(y*y+A*A),3)
+def calcular_exp_p(absE):
+	p = []
+	k = 0
+	for valor in absE:
+		if k > 1:
+			p.append(math.log((absE[k]/absE[k-1]), math.e) / math.log((absE[k-1]/absE[k-2]), math.e))
+		else:
+			p.append(VACIO)
+		k = k+1
+	return p
+
+def calcular_lambda(absE, p):
+	y = []
+	k = 0
+	for valor in absE:
+		if k > 1:
+			y.append(absE[k] / math.pow(absE[k - 1], p[k]))
+		else:
+			y.append(VACIO)
+		k = k+1
+	return y
 
 def main():
-	print(newton_raphson(f,1,2,ERROR))
+	newton_raphson(f, 1, 2, ERROR)
+
 main()

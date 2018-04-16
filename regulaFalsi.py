@@ -1,40 +1,117 @@
 import math
 
-ERROR = math.pow(5,-20) #De esta forma el resultado queda con 16 digitos significativos
-#PADRON = 99093
-#L0 = 2*100000/PADRON
-L0 = 2.02 #Redondeado a 3 digitos significativos
+ERROR = math.pow(5, -17)  # De esta forma se logran 16 digitos significativos
+VACIO = 10
+# PADRON = 99093
+# L0 = 2*100000/PADRON
+L0 = 2.02  # Redondeado a 3 digitos significativos
 G = 9.81
 K = 10
 M = 0
 A = 1
 
-def regula_falsi(f,inicio,fin,error):
+def regula_falsi (f,inicio,fin):
+	a = []
+	b = []
 	raiz = []
-	if(regula_falsi_rec(f,inicio,fin,error,raiz)):
-		return raiz
-	raise ValueError("No hay raiz")	
+	absError = []
+	relError = []
+	k = 0
+
+
+	if regula_falsi_rec(k, f, inicio, fin, raiz, a, b, absError, relError):
+		print ("HAY RAIZ")
+	else:
+		print ("NO HAY RIZ")
+
+	print a
+	print calcular_f_en_arreglo(a)
+	print b
+	print calcular_f_en_arreglo(b)
+	print raiz
+	print absError
+	print relError
+	p = calcular_exp_p(absError)
+	print p
+	print calcular_lambda(absError, p)
+
 	
-def regula_falsi_rec(f,inicio,fin,error,raiz):
-	medio = calcular_medio(f,inicio,fin)
+def regula_falsi_rec(k, f, inicio, fin, raiz, a, b, absE, relE):
+	medio = calcular_medio(f, inicio, fin)
+	a.append(inicio)
+	b.append(fin)
 	raiz.append(medio)
-	if(abs(f(medio))<error):
+
+	if k == 0:
+		absE.append(VACIO)
+		relE.append(VACIO)
+
+	else:
+		absE.append(abs(raiz[k]-raiz[k-1]))
+		relE.append(abs(absE[k]/raiz[k]))
+
+		if relE[k] < ERROR:
+			return True
+
+	k = k+1
+
+	if f(inicio)*f(medio) < 0:
+		regula_falsi_rec(k, f, inicio, medio, raiz, a, b, absE, relE)
 		return True
-	if(f(inicio)*f(medio)>0 and f(medio)*f(fin)>0):
+
+	if f(medio)*f(fin) < 0:
+			regula_falsi_rec(k, f, medio, fin, raiz, a, b, absE, relE)
+
+	else:
 		return False
-	if(f(inicio)*f(medio)<0):
-		regula_falsi_rec(f,inicio,medio,error,raiz)
-		return True
-	regula_falsi_rec(f,medio,fin,error,raiz)
+	
 	return True	
 	
-def calcular_medio(f,inicio,fin):
+def calcular_medio(f, inicio, fin):
 	return (fin*f(inicio)-inicio*f(fin))/(f(inicio)-f(fin))
 
+def calcular_f_en_arreglo(arreglo):
+	f_en_arreglo = []
+
+	for a in arreglo:
+		f_en_arreglo.append(f(a))
+
+	return f_en_arreglo
+
 def f(y):
-	return -2*K*y*(1-L0/math.sqrt(y*y+A*A))-M*G 
-	
+	return -2*K*y*(1-L0/math.sqrt(math.pow(y, 2)+math.pow(A, 2))-M*G)
+
+def calcular_exp_p(absE):
+	p = []
+	k = 0
+
+	for valor in absE:
+		if k > 1:
+			p.append(math.log((absE[k]/absE[k-1]), math.e) / math.log((absE[k-1]/absE[k-2]), math.e))
+
+		else:
+			p.append(VACIO)
+
+		k = k+1
+
+	return p
+
+def calcular_lambda(absE, p):
+	y = []
+	k = 0
+
+	for valor in absE:
+		if k > 1:
+			y.append(absE[k] / math.pow(absE[k - 1], p[k]))
+
+		else:
+			y.append(VACIO)
+
+		k = k+1
+
+	return y
+
 def main():
-	print(regula_falsi(f,-2,-1,ERROR))
+	regula_falsi(f, 1, 2)
 
 main()
