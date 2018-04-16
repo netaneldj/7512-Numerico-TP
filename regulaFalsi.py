@@ -1,13 +1,12 @@
 import math
 
-ERROR = math.pow(5, -17)  # De esta forma se logran 16 digitos significativos
+ERROR = math.pow(5, -17)
 VACIO = 10
 # PADRON = 99093
-# L0 = 2*100000/PADRON
-L0 = 2.02  # Redondeado a 3 digitos significativos
+L0 = 2.02
 G = 9.81
 K = 10
-M = 0
+M = 3.03
 A = 1
 
 def regula_falsi (f,inicio,fin):
@@ -22,7 +21,7 @@ def regula_falsi (f,inicio,fin):
 	if regula_falsi_rec(k, f, inicio, fin, raiz, a, b, absError, relError):
 		print ("HAY RAIZ")
 	else:
-		print ("NO HAY RIZ")
+		print ("NO HAY RAIZ")
 
 	print a
 	print calcular_f_en_arreglo(a)
@@ -48,7 +47,7 @@ def regula_falsi_rec(k, f, inicio, fin, raiz, a, b, absE, relE):
 
 	else:
 		absE.append(abs(raiz[k]-raiz[k-1]))
-		relE.append(abs(absE[k]/raiz[k]))
+		relE.append(abs(absE[k]/(raiz[k])))
 
 		if relE[k] < ERROR:
 			return True
@@ -68,7 +67,7 @@ def regula_falsi_rec(k, f, inicio, fin, raiz, a, b, absE, relE):
 	return True	
 	
 def calcular_medio(f, inicio, fin):
-	return (fin*f(inicio)-inicio*f(fin))/(f(inicio)-f(fin))
+	return inicio-(((fin-inicio)/(f(fin)-f(inicio)))*f(inicio))
 
 def calcular_f_en_arreglo(arreglo):
 	f_en_arreglo = []
@@ -79,7 +78,7 @@ def calcular_f_en_arreglo(arreglo):
 	return f_en_arreglo
 
 def f(y):
-	return -2*K*y*(1-L0/math.sqrt(math.pow(y, 2)+math.pow(A, 2))-M*G)
+	return -(M*G)-(2*K*y*(1-(L0/math.sqrt(math.pow(y, 2)+math.pow(A, 2)))))
 
 def calcular_exp_p(absE):
 	p = []
@@ -112,6 +111,6 @@ def calcular_lambda(absE, p):
 	return y
 
 def main():
-	regula_falsi(f, 1, 2)
-
+	regula_falsi(f, -4.0, -3.0)
+	
 main()
