@@ -25,9 +25,9 @@ def newton_raphson(f, inicio, fin, error):
 	print raiz
 	print absError
 	print relError
-	p = calcular_exp_p(absError)
-	print p
-	print calcular_lambda(absError, p)
+	#p = calcular_exp_p(absError)
+	#print p
+	#print calcular_lambda(absError, p)
 	
 def newton_raphson_rec(f, derivada, comienzo, raiz, errorAbs, errorRel, k):
 
@@ -48,10 +48,10 @@ def calcular_proximo_punto(f, derivada, xn):
 	return xn-f(xn)/derivada(xn)
 
 def f(y):
-	return -2*K*y*(1-L0/math.sqrt(math.pow(y, 2)+math.pow(A, 2))-M*G)
+	return -2*K*y*(1-L0/math.sqrt(math.pow(y, 2)+math.pow(A, 2)))-M*G
 
 def derivada(y):
-	return -2*K*(1-L0/math.sqrt(math.pow(y, 2)+math.pow(A, 2))+y*L0/(2*math.pow(math.sqrt(math.pow(y, 2)+math.pow(A, 2)), 3)))
+	return -2*K + (2*K*L0/math.sqrt(math.pow(y,2)+math.pow(A,2)))*(1-math.pow(y,2)/(math.pow(y,2)+math.pow(A,2)))
 
 def calcular_exp_p(absE):
 	p = []
