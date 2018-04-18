@@ -66,7 +66,6 @@ def calcular_lambda(absE, p):
 	y = []
 	for k in range(len(absE)):
 		if k > 1:
-			print(absE[k],absE[k-1], p[k])
 			y.append(absE[k] / math.pow(absE[k - 1], p[k]))
 		else:
 			y.append(VACIO)
