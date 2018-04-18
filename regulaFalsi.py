@@ -6,7 +6,7 @@ VACIO = 10
 L0 = 2.02
 G = 9.81
 K = 10
-M = 3.03
+M = 0
 A = 1
 
 def regula_falsi (f,inicio,fin):
@@ -111,6 +111,6 @@ def calcular_lambda(absE, p):
 	return y
 
 def main():
-	regula_falsi(f, -4.0, -3.0)
+	regula_falsi(f, 1,2)
 	
 main()
