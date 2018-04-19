@@ -54,12 +54,11 @@ def calcular_exp_p(absE):
 	for k in range(len(absE)):
 		if k > 1:
 			try:
-				p.append(math.log((absE[k]/absE[k-1]), math.e) / math.log((absE[k-1]/absE[k-2]), math.e)) #Da error porque el error absoluto en la posicion K da cero
+				p.append(math.log((absE[k+1]/absE[k]), math.e) / math.log((absE[k]/absE[k-1]), math.e)) #Da error porque el error absoluto en la posicion K da cero
 			except:
 				p.append(p[k-1])
 		else:
 			p.append(VACIO)
-		k+=1
 	return p
 
 def calcular_lambda(absE, p):
@@ -69,7 +68,6 @@ def calcular_lambda(absE, p):
 			y.append(absE[k] / math.pow(absE[k - 1], p[k]))
 		else:
 			y.append(VACIO)
-		k+=1
 	return y
 
 def main():

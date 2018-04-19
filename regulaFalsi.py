@@ -1,12 +1,14 @@
 import math
 
 ERROR = math.pow(5, -17)
-VACIO = 10
+VACIO = None
 # PADRON = 99093
+# L0 = 2*100000/PADRON
+# M = 0.3*100000/PADRON
 L0 = 2.02
 G = 9.81
 K = 10
-M = 0
+M = 0.303 # Redondeado a 3 digitos significativos 
 A = 1
 
 def regula_falsi (f,inicio,fin):
@@ -40,7 +42,6 @@ def regula_falsi_rec(k, f, inicio, fin, raiz, a, b, absE, relE):
 	a.append(inicio)
 	b.append(fin)
 	raiz.append(medio)
-
 	if k == 0:
 		absE.append(VACIO)
 		relE.append(VACIO)
@@ -82,32 +83,20 @@ def f(y):
 
 def calcular_exp_p(absE):
 	p = []
-	k = 0
-
-	for valor in absE:
+	for k in range(len(absE)-1):
 		if k > 1:
-			p.append(math.log((absE[k]/absE[k-1]), math.e) / math.log((absE[k-1]/absE[k-2]), math.e))
-
+			p.append(math.log((absE[k+1]/absE[k]), math.e) / math.log((absE[k]/absE[k-1]), math.e))
 		else:
 			p.append(VACIO)
-
-		k = k+1
-
 	return p
 
 def calcular_lambda(absE, p):
 	y = []
-	k = 0
-
-	for valor in absE:
+	for k in range(len(absE)-1):
 		if k > 1:
-			y.append(absE[k] / math.pow(absE[k - 1], p[k]))
-
+			y.append(absE[k+1] / math.pow(absE[k], p[k]))
 		else:
 			y.append(VACIO)
-
-		k = k+1
-
 	return y
 
 def main():
