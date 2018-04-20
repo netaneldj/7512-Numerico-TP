@@ -74,7 +74,7 @@ def calcular_lambda(absE, p):
 	return y
 
 def main():
-	newton_raphson(f, 1, 2, ERROR)
+	newton_raphson(f, 0,0.5, ERROR)
 
 main()
 

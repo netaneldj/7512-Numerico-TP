@@ -49,8 +49,8 @@ def punto_fijo_rec(k, g, punto, error, raiz, absE, relE):
 	return True
 	
 def g(y):
-	return y+2*K*y*(1-L0/math.sqrt(math.pow(y, 2)+math.pow(A, 2)))+M*G
-	#return y*L0/math.sqrt(math.pow(y,2)+math.pow(A,2))-M*G/(2*K) #Funcion punto fijo funciona
+	#return y+2*K*y*(1-L0/math.sqrt(math.pow(y, 2)+math.pow(A, 2)))+M*G
+	return y*L0/math.sqrt(math.pow(y,2)+math.pow(A,2))-M*G/(2*K) #Funcion punto fijo funciona
 
 def calcular_exp_p(absE):
 	p = []
@@ -83,6 +83,6 @@ def calcular_lambda(absE, p):
 	return y
 
 def main():
-	punto_fijo(g, 1.6, 1.7, ERROR)
+	punto_fijo(g, 1, 2, ERROR)
 
 main()

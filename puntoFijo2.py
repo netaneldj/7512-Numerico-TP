@@ -62,6 +62,6 @@ def calcular_lambda(absE, p):
 	return y
 
 def main():
-	punto_fijo(g, 1, 2, ERROR)
+	punto_fijo(g,-2,0,ERROR)
 
 main()

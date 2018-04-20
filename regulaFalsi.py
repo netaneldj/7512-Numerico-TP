@@ -100,6 +100,6 @@ def calcular_lambda(absE, p):
 	return y
 
 def main():
-	regula_falsi(f, 1,2)
+	regula_falsi(f, -2,0)
 	
 main()
