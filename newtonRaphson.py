@@ -1,6 +1,6 @@
 import math
 
-ERROR = math.pow(5, -17)  # De esta forma el resultado queda con 16 digitos significativos
+ERROR = math.pow(5, -17)
 VACIO = None
 # PADRON = 99093
 # L0 = 2*100000/PADRON

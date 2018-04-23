@@ -4,11 +4,12 @@ ERROR = math.pow(5, -17)
 VACIO = None
 # PADRON = 99093
 # L0 = 2*100000/PADRON
-# M = 0.3*100000/PADRON
 L0 = 2.02
 G = 9.81
 K = 10
-M = 0.303 # Redondeado a 3 digitos significativos 
+# M0 = 100000/PADRON
+M0 = 1.01
+M = 0*M0
 A = 1
 
 def regula_falsi (inicio,fin):
@@ -39,9 +40,10 @@ def regula_falsi (inicio,fin):
 	
 def regula_falsi_rec(k, inicio, fin, raiz, a, b, absE, relE):
 	medio = calcular_medio(inicio, fin)
+	raiz.append(medio)
+	
 	a.append(inicio)
 	b.append(fin)
-	raiz.append(medio)
 
 	if k == 0:
 		absE.append(VACIO)
@@ -54,11 +56,10 @@ def regula_falsi_rec(k, inicio, fin, raiz, a, b, absE, relE):
 		if relE[k] < ERROR:
 			return True
 
-	k = k+1
+	k += 1
 
 	if f(inicio)*f(medio) < 0:
 		regula_falsi_rec(k, inicio, medio, raiz, a, b, absE, relE)
-		return True
 
 	if f(medio)*f(fin) < 0:
 			regula_falsi_rec(k, medio, fin, raiz, a, b, absE, relE)
@@ -80,7 +81,7 @@ def calcular_f_en_arreglo(arreglo):
 	return f_en_arreglo
 
 def f(y):
-	return -(M*G)-(2*K*y*(1-(L0/math.sqrt(math.pow(y, 2)+math.pow(A, 2)))))
+	return -2*K*y*(1 - L0/math.sqrt(math.pow(y, 2) + math.pow(A, 2))) - M*G
 
 def calcular_exp_p(absE):
 	p = []
@@ -107,6 +108,6 @@ def calcular_lambda(absE, p):
 	return y
 
 def main():
-	regula_falsi(-2, 0)
+	regula_falsi(1, 2)
 	
 main()
