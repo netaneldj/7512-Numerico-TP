@@ -11,16 +11,16 @@ K = 10
 M = 0.303 # Redondeado a 3 digitos significativos 
 A = 1
 
-def regula_falsi (f,inicio,fin):
+def regula_falsi (inicio,fin):
 	a = []
 	b = []
 	raiz = []
 	absError = []
 	relError = []
+
 	k = 0
 
-
-	if regula_falsi_rec(k, f, inicio, fin, raiz, a, b, absError, relError):
+	if regula_falsi_rec(k, inicio, fin, raiz, a, b, absError, relError):
 		print ("HAY RAIZ")
 	else:
 		print ("NO HAY RAIZ")
@@ -37,11 +37,12 @@ def regula_falsi (f,inicio,fin):
 	print calcular_lambda(absError, p)
 
 	
-def regula_falsi_rec(k, f, inicio, fin, raiz, a, b, absE, relE):
-	medio = calcular_medio(f, inicio, fin)
+def regula_falsi_rec(k, inicio, fin, raiz, a, b, absE, relE):
+	medio = calcular_medio(inicio, fin)
 	a.append(inicio)
 	b.append(fin)
 	raiz.append(medio)
+
 	if k == 0:
 		absE.append(VACIO)
 		relE.append(VACIO)
@@ -56,19 +57,19 @@ def regula_falsi_rec(k, f, inicio, fin, raiz, a, b, absE, relE):
 	k = k+1
 
 	if f(inicio)*f(medio) < 0:
-		regula_falsi_rec(k, f, inicio, medio, raiz, a, b, absE, relE)
+		regula_falsi_rec(k, inicio, medio, raiz, a, b, absE, relE)
 		return True
 
 	if f(medio)*f(fin) < 0:
-			regula_falsi_rec(k, f, medio, fin, raiz, a, b, absE, relE)
+			regula_falsi_rec(k, medio, fin, raiz, a, b, absE, relE)
 
 	else:
 		return False
 	
 	return True	
 	
-def calcular_medio(f, inicio, fin):
-	return inicio-(((fin-inicio)/(f(fin)-f(inicio)))*f(inicio))
+def calcular_medio( inicio, fin):
+	return inicio-((fin-inicio)/(f(fin)-f(inicio)))*f(inicio)
 
 def calcular_f_en_arreglo(arreglo):
 	f_en_arreglo = []
@@ -83,23 +84,29 @@ def f(y):
 
 def calcular_exp_p(absE):
 	p = []
+
 	for k in range(len(absE)-1):
 		if k > 1:
 			p.append(math.log((absE[k+1]/absE[k]), math.e) / math.log((absE[k]/absE[k-1]), math.e))
+
 		else:
 			p.append(VACIO)
+
 	return p
 
 def calcular_lambda(absE, p):
 	y = []
+
 	for k in range(len(absE)-1):
 		if k > 1:
 			y.append(absE[k+1] / math.pow(absE[k], p[k]))
+
 		else:
 			y.append(VACIO)
+
 	return y
 
 def main():
-	regula_falsi(f, -2,0)
+	regula_falsi(-2, 0)
 	
 main()
