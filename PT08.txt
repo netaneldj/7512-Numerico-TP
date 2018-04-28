@@ -1,0 +1,323 @@
+BRACCELARGHE AILIN - 99366 - TARELA - 29/04/18
+JAMILIS NETANEL - 99093
+
+Código fuente: Regula-Falsi
+
+import math
+
+ERROR = math.pow(5, -17)
+VACIO = None
+# PADRON = 99093
+# L0 = 2*100000/PADRON
+L0 = 2.02
+G = 9.81
+K = 10
+# M0 = 100000/PADRON
+M0 = 1.01
+M = 0*M0
+A = 1
+
+def regula_falsi (inicio,fin):
+	a = []
+	b = []
+	raiz = []
+	absError = []
+	relError = []
+
+	k = 0
+
+	if regula_falsi_rec(k, inicio, fin, raiz, a, b, absError, relError):
+		print ("HAY RAIZ")
+	else:
+		print ("NO HAY RAIZ")
+
+	print a
+	print calcular_f_en_arreglo(a)
+	print b
+	print calcular_f_en_arreglo(b)
+	print raiz
+	print absError
+	print relError
+	p = calcular_exp_p(absError)
+	print p
+	print calcular_lambda(absError, p)
+
+	
+def regula_falsi_rec(k, inicio, fin, raiz, a, b, absE, relE):
+
+	medio = calcular_medio(inicio, fin)
+	raiz.append(medio)
+	
+	a.append(inicio)
+	b.append(fin)
+
+	if k == 0:
+		absE.append(VACIO)
+		relE.append(VACIO)
+
+	else:
+		absE.append(abs(raiz[k]-raiz[k-1]))
+		relE.append(abs(absE[k]/(raiz[k])))
+
+		if relE[k] < ERROR:
+			return True
+
+	k += 1
+
+	if f(inicio)*f(medio) < 0:
+		regula_falsi_rec(k, inicio, medio, raiz, a, b, absE, relE)
+
+	if f(medio)*f(fin) < 0:
+			regula_falsi_rec(k, medio, fin, raiz, a, b, absE, relE)
+
+	else:
+		return False
+	
+	return True	
+	
+
+def calcular_medio( inicio, fin):
+	return inicio-((fin-inicio)/(f(fin)-f(inicio)))*f(inicio)
+
+
+def calcular_f_en_arreglo(arreglo):
+	f_en_arreglo = []
+
+	for a in arreglo:
+		f_en_arreglo.append(f(a))
+
+	return f_en_arreglo
+
+
+def f(y):
+	return -2*K*y*(1 - L0/math.sqrt(math.pow(y, 2) + math.pow(A, 2))) - M*G
+
+
+def calcular_exp_p(absE):
+	p = []
+
+	for k in range(len(absE)-1):
+		if k > 1:
+			p.append(math.log((absE[k+1]/absE[k]), math.e) / math.log((absE[k]/absE[k-1]), math.e))
+
+		else:
+			p.append(VACIO)
+
+	return p
+
+
+def calcular_lambda(absE, p):
+	y = []
+
+	for k in range(len(absE)-1):
+		if k > 1:
+			y.append(absE[k+1] / math.pow(absE[k], p[k]))
+
+		else:
+			y.append(VACIO)
+
+	return y
+
+
+def main():
+	regula_falsi(1, 2)
+	
+
+main()
+
+
+
+Código fuente: Punto Fijo
+
+import math
+
+ERROR = math.pow(5, -17)
+VACIO = None
+# PADRON = 99093
+# L0 = 2*100000/PADRON
+L0 = 2.02
+G = 9.81
+K = 10
+# M0 = 100000/PADRON
+M0 = 1.01
+M = 0.3*M0
+A = 1
+
+def punto_fijo(semilla):
+
+	raiz = []
+	absError = []
+	relError = []
+
+	raiz.append(semilla)
+	absError.append(VACIO)
+	relError.append(VACIO)
+
+	k = 1
+	punto_fijo_rec(k, semilla, raiz, absError, relError)
+
+	print raiz
+	print absError
+	print relError
+	p = calcular_exp_p(absError)
+	print p
+	print calcular_lambda(absError, p)
+
+
+def punto_fijo_rec(k, pto_anterior, raiz, absE, relE):
+
+	punto = g(pto_anterior)
+	raiz.append(punto)
+
+	absE.append(abs(raiz[k]-raiz[k-1]))
+	relE.append(abs(absE[k]/raiz[k]))
+
+# Para observar las primeras 10 ieraciones cuando el metodo no converge
+	if k == 10:
+		p = calcular_exp_p(absE)
+		y = calcular_lambda(absE, p)
+		print raiz, "\n", absE, "\n", relE, "\n", p, "\n", y
+
+	if relE[k] < ERROR:
+		return
+
+	k+=1
+	punto_fijo_rec(k, punto, raiz, absE, relE)
+
+
+def g(y):
+	return y - (-2*K*y*(1 - L0/math.sqrt(math.pow(y, 2) + math.pow(A, 2))) - M*G)
+
+	#Funcion punto fijo alternativa que converge
+	# return y*L0/math.sqrt(math.pow(y,2)+math.pow(A,2))-M*G/(2*K) 
+
+
+def calcular_exp_p(absE):
+	p = []
+
+	for k in range(len(absE)-1):
+		if k > 1:
+			p.append(math.log((absE[k+1]/absE[k]), math.e) / math.log((absE[k]/absE[k-1]), math.e))
+
+		else:
+			p.append(VACIO)
+
+	return p
+
+
+def calcular_lambda(absE, p):
+	y = []
+
+	for k in range(len(absE)-1):
+		if k > 1:
+			y.append(absE[k] / math.pow(absE[k - 1], p[k]))
+
+		else:
+			y.append(VACIO)
+
+	return y
+
+
+def main():
+	punto_fijo(2)  # el parametro es la semilla
+
+
+main()
+
+
+
+Código fuente: Newton-Raphson
+
+import math
+
+ERROR = math.pow(5, -17)
+VACIO = None
+# PADRON = 99093
+# L0 = 2*100000/PADRON
+L0 = 2.02
+G = 9.81
+K = 10
+# M0 = 100000/PADRON
+M0 = 1.01
+M = 1.5*M0
+A = 1
+
+def newton_raphson(semilla):
+
+	raiz = []
+	absError = []
+	relError = []
+
+	raiz.append(semilla)
+	absError.append(VACIO)
+	relError.append(VACIO)
+
+	k = 1
+	newton_raphson_rec(semilla, raiz, absError, relError, k)
+
+	print raiz
+	print absError
+	print relError
+	p = calcular_exp_p(absError)
+	print p
+	print calcular_lambda(absError, p)
+	
+def newton_raphson_rec(pto_anterior, raiz, errorAbs, errorRel, k):
+
+	punto = calcular_proximo_punto(pto_anterior)
+	raiz.append(punto)
+
+	errorAbs.append(abs(raiz[k]-raiz[k-1]))
+	errorRel.append(abs(errorAbs[k]/raiz[k]))
+
+	if errorRel[k] < ERROR:
+		print errorRel[k], ERROR
+		return
+
+	k+=1
+	newton_raphson_rec(punto, raiz, errorAbs, errorRel, k)
+
+
+def calcular_proximo_punto(xn):
+	return xn-f(xn)/derivada(xn)
+
+
+def f(y):
+	return -2*K*y*(1 - L0/math.sqrt(math.pow(y, 2)+math.pow(A, 2))) - M*G
+
+
+def derivada(y):
+	return -2*K*(1 - L0/math.sqrt(math.pow(y,2)+math.pow(A,2))*(1 - math.pow(y,2)/(math.pow(y,2)+math.pow(A,2))))
+
+
+def calcular_exp_p(absE):
+	p = []
+	
+	for k in range(len(absE)-1):
+		if k > 1:
+			p.append(math.log((absE[k+1]/absE[k]), math.e) / math.log((absE[k]/absE[k-1]), math.e))
+
+		else:
+			p.append(VACIO)
+
+	return p
+
+
+def calcular_lambda(absE, p):
+	y = []
+
+	for k in range(len(absE)-1):
+		if k > 1:
+			y.append(absE[k+1] / math.pow(absE[k], p[k]))
+
+		else:
+			y.append(VACIO)
+
+	return y
+
+
+def main():
+	newton_raphson(0)  # el parametro es la semilla
+
+
+main()
