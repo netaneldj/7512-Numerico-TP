@@ -9,7 +9,7 @@ G = 9.81
 K = 10
 # M0 = 100000/PADRON
 M0 = 1.01
-M = 0*M0
+M = 1.5*M0
 A = 1
 
 def newton_raphson(semilla):
@@ -38,7 +38,12 @@ def newton_raphson_rec(pto_anterior, raiz, errorAbs, errorRel, k):
 	errorAbs.append(abs(raiz[k]-raiz[k-1]))
 	errorRel.append(abs(errorAbs[k]/raiz[k]))
 
+#	if k==6:
+#		p = calcular_exp_p(errorAbs)
+#		print raiz, "\n", errorAbs, "\n", errorRel, "\n", p, "\n", calcular_lambda(errorAbs, p)
+
 	if errorRel[k] < ERROR:
+		print errorRel[k], ERROR
 		return
 
 	k+=1
@@ -79,7 +84,7 @@ def calcular_lambda(absE, p):
 	return y
 
 def main():
-	newton_raphson(1.5)  # el parametro es la semilla
+	newton_raphson(0)  # el parametro es la semilla
 
 main()
 

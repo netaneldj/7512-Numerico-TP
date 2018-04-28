@@ -9,7 +9,7 @@ G = 9.81
 K = 10
 # M0 = 100000/PADRON
 M0 = 1.01
-M = 0*M0
+M = 0.3*M0
 A = 1
 
 def punto_fijo(semilla):
@@ -39,10 +39,10 @@ def punto_fijo_rec(k, pto_anterior, raiz, absE, relE):
 	relE.append(abs(absE[k]/raiz[k]))
 
 # Para observar las primeras 10 ieraciones cuando el metodo no converge
-	# if k == 10:
-		# p = calcular_exp_p(absE)
-		# y = calcular_lambda(absE, p)
-		# print raiz, "\n", absE, "\n", relE, "\n", p, "\n", y
+#	if k == 10:
+#		p = calcular_exp_p(absE)
+#		y = calcular_lambda(absE, p)
+#		print raiz, "\n", absE, "\n", relE, "\n", p, "\n", y
 
 	if relE[k] < ERROR:
 		return
@@ -79,5 +79,5 @@ def calcular_lambda(absE, p):
 	return y
 
 def main():
-	punto_fijo(2)  # el parametro es la semilla
+	punto_fijo(0.149)  # el parametro es la semilla
 main()
