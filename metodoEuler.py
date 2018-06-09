@@ -31,12 +31,18 @@ def euler(h, y0, v0):
 
 		if hay_un_maximo(posicion, n):
 			oscilacion+=1
+			#print(posicion[n-1])
 			if oscilacion == 4:
 				cuarta_oscilacion = True
-
+	
+	print("!!!POSICION!!!!")
 	print(posicion)
+	print("!!!VELOCIDAD!!!")
 	print(velocidad)
+	print("!!!ACELERACION!!!")
 	print(aceleracion)
+	print("CANTIAD DE ITERACIONES")
+	print(n)
 
 def calcular_posicion(y, v, h, n):
 	return y[n] + h * v[n]
@@ -49,7 +55,7 @@ def calcular_aceleracion(y):
 	return G - (K1/M) * math.pow(y-L0, K2)
 
 def hay_un_maximo(y, n):
-	if (n > 1) and (y[n] > y[n-1]) and (y[n-1] < y[n-2]): return True
+	if (n > 1) and (y[n] < y[n-1]) and (y[n-1] > y[n-2]): return True
 	return False
 
 def main():
