@@ -3,8 +3,8 @@ import math
 G = 9.807
 M = 87.464
 L0 = 51.549
-K1 = 9.8#49.366
-K2 = 1.25#1
+K1 = 5.5 #49.366
+K2 = 1.38#1
 C1 = 4.873
 C2 = 1.5
 
@@ -33,7 +33,7 @@ def rungekutta4(h, y0, v0):
 	tiempo = [0]
 
 	while not cuarta_oscilacion:
-		posicion.append(round(calcular_posicion(posicion, velocidad, h, n), 6)) #Redondea seis decimales
+		posicion.append(round(calcular_posicion(posicion, velocidad, h, n), 6)) #Redondea a 6 decimales
 		velocidad.append(round(calcular_velocidad(posicion, velocidad, h, n), 5)) #Redondea a 5 decimales
 		n+=1
 		#aceleracion.append(round(calcular_aceleracion(posicion[n]), 5)) #Redondea aceleracion a 5 digitos
@@ -46,7 +46,7 @@ def rungekutta4(h, y0, v0):
 			#print(posicion[n-1])
 			if oscilacion == 4:
 				cuarta_oscilacion = True
-				
+	#print(n)			
 	return posicion, velocidad, aceleracion, tiempo
 
 
@@ -70,11 +70,18 @@ def hay_un_maximo(y, n):
 	return False
 
 def main():
-	y, v, a, t = rungekutta4(0.143,0,0) # intervalo h, posicion inicical, velocidad inicial
-
-	print ("posicion:", y)
-	print ("velocidad:", v)
-	print ("aceleracion:", a)
-	print ("tiempo:", t)
+	y, v, a, t = rungekutta4(0.001,0,0) # intervalo h, posicion inicical, velocidad inicial
+	
+	acelMax = 0
+	for aceleracion in a:
+		if abs(aceleracion)>acelMax:
+			acelMax = abs(aceleracion)
+	print("ACELERACION MAXIMA: {}".format(acelMax))
+	print("ALTURA MAXIMA: {}".format(max(y)))
+	
+	#print ("posicion:", y)
+	#print ("velocidad:", v)
+	#print ("aceleracion:", a)
+	#print ("tiempo:", t)
 
 main()
