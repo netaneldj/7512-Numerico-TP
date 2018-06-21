@@ -3,8 +3,8 @@ import math
 G = 9.807
 M = 87.464
 L0 = 51.549
-K1 = 5.5 #49.366
-K2 = 1.38#1
+K1 = 9.8
+K2 = 1.25
 C1 = 4.873
 C2 = 1.5
 
@@ -33,17 +33,21 @@ def rungekutta4(h, y0, v0):
 	tiempo = [0]
 
 	while not cuarta_oscilacion:
-		posicion.append(round(calcular_posicion(posicion, velocidad, h, n), 6)) #Redondea a 6 decimales
-		velocidad.append(round(calcular_velocidad(posicion, velocidad, h, n), 5)) #Redondea a 5 decimales
+		posicion.append(round(calcular_posicion(posicion, velocidad, h, n), 6))
+		velocidad.append(round(calcular_velocidad(posicion, velocidad, h, n), 5))
 		n+=1
-		#aceleracion.append(round(calcular_aceleracion(posicion[n]), 5)) #Redondea aceleracion a 5 digitos
-		aceleracion.append(round(calcular_aceleracion_aire(posicion, velocidad, h, n), 5))
+		aceleracion.append(round(calcular_aceleracion(posicion[n]), 5))
+		#aceleracion.append(round(calcular_aceleracion_aire(posicion, velocidad, h, n), 5))
 		tiempo.append(round(n * h, 3))
 
 
 		if hay_un_maximo(posicion, n):
 			oscilacion+=1
-			#print(posicion[n-1])
+
+			print posicion[n - 2], velocidad[n - 2], aceleracion[n - 2], tiempo[n - 2]
+			print posicion[n - 1], velocidad[n - 1], aceleracion[n - 1], tiempo[n - 1]
+			print posicion[n], velocidad[n], aceleracion[n], tiempo[n]
+
 			if oscilacion == 4:
 				cuarta_oscilacion = True
 	#print(n)			
@@ -62,22 +66,17 @@ def calcular_aceleracion(y):
 
 def calcular_aceleracion_aire(y,v,h,n):
 	if (y[n]<L0):
-		return G-(C1/M)*math.pow(abs(calcular_velocidad(y,v,h,n)),C2)#Calculo con el modulo de la velocidad 
-	return	G-(K1/M)*math.pow(y[n]-L0,K2)-(C1/M)*math.pow(abs(calcular_velocidad(y,v,h,n)),C2) #Calculo con el modulo de la velocidad
+		return G-(C1/M)*math.pow(abs(v[n]),C2)
+	return	G-(K1/M)*math.pow(y[n]-L0,K2)-(C1/M)*math.pow(abs(v[n]),C2) 
 
 def hay_un_maximo(y, n):
 	if (n > 1) and (y[n] < y[n-1]) and (y[n-1] > y[n-2]): return True
 	return False
 
 def main():
-	y, v, a, t = rungekutta4(0.001,0,0) # intervalo h, posicion inicical, velocidad inicial
+	y, v, a, t = rungekutta4(0.05,0,0) # intervalo h, posicion inicical, velocidad inicial
 	
-	acelMax = 0
-	for aceleracion in a:
-		if abs(aceleracion)>acelMax:
-			acelMax = abs(aceleracion)
-	print("ACELERACION MAXIMA: {}".format(acelMax))
-	print("ALTURA MAXIMA: {}".format(max(y)))
+
 	
 	#print ("posicion:", y)
 	#print ("velocidad:", v)
