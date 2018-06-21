@@ -3,8 +3,8 @@ import math
 G = 9.807
 M = 87.464
 L0 = 51.549
-K1 = 9.8
-K2 = 1.25
+K1 = 21#9.8
+K2 = 1.1#1.25
 C1 = 4.873
 C2 = 1.5
 
@@ -36,17 +36,17 @@ def rungekutta4(h, y0, v0):
 		posicion.append(round(calcular_posicion(posicion, velocidad, h, n), 6))
 		velocidad.append(round(calcular_velocidad(posicion, velocidad, h, n), 5))
 		n+=1
-		aceleracion.append(round(calcular_aceleracion(posicion[n]), 5))
-		#aceleracion.append(round(calcular_aceleracion_aire(posicion, velocidad, h, n), 5))
+		#aceleracion.append(round(calcular_aceleracion(posicion[n]), 5))
+		aceleracion.append(round(calcular_aceleracion_aire(posicion, velocidad, h, n), 5))
 		tiempo.append(round(n * h, 3))
 
 
 		if hay_un_maximo(posicion, n):
 			oscilacion+=1
 
-			print posicion[n - 2], velocidad[n - 2], aceleracion[n - 2], tiempo[n - 2]
-			print posicion[n - 1], velocidad[n - 1], aceleracion[n - 1], tiempo[n - 1]
-			print posicion[n], velocidad[n], aceleracion[n], tiempo[n]
+			print ("Pos:{}   Vel:{}   Acel:{}   T:{}".format(posicion[n - 2],velocidad[n - 2],aceleracion[n - 2],tiempo[n - 2]))
+			print ("Pos:{}   Vel:{}   Acel:{}   T:{}".format(posicion[n - 1], velocidad[n - 1], aceleracion[n - 1], tiempo[n - 1]))
+			print ("Pos:{}   Vel:{}   Acel:{}   T:{}".format(posicion[n], velocidad[n], aceleracion[n], tiempo[n]))
 
 			if oscilacion == 4:
 				cuarta_oscilacion = True
@@ -76,11 +76,31 @@ def hay_un_maximo(y, n):
 def main():
 	y, v, a, t = rungekutta4(0.05,0,0) # intervalo h, posicion inicical, velocidad inicial
 	
-
+	nMax = 0
+	tMax = 0
+	posMax = 0
+	velMax = 0
+	acelMax = 0
+	for i in range(len(a)):
+		if abs(a[i])>acelMax:
+			nMax = i
+			tMax = t[i]
+			posMax = y[i]
+			velMax =  v[i]
+			acelMax = abs(a[i])
 	
-	#print ("posicion:", y)
-	#print ("velocidad:", v)
-	#print ("aceleracion:", a)
-	#print ("tiempo:", t)
+	print("\nALTURA MAXIMA: {}\n".format(max(y)))
+	
+	print("ITERACION: {}".format(nMax))
+	print("TIEMPO {}: {}".format(nMax,tMax))
+	print("ALTURA {}: {}".format(nMax,posMax))
+	print("VELOCIDAD {}: {}".format(nMax,velMax))
+	print("ACELERACION MAXIMA: {}".format(a[nMax]))
+	
+	#print ("posicion: {}".format(y))
+	#print ("velocidad: {}".format(v))
+	#print ("aceleracion: {}".format(a))
+	#print ("tiempo: {}".format(t))
+	
 
 main()
