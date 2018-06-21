@@ -35,7 +35,7 @@ def euler(h, y0, v0):
 
 		if hay_un_maximo(posicion, n):
 			oscilacion+=1
-			#print(posicion[n-1])
+
 			if oscilacion == 4:
 				cuarta_oscilacion = True
 

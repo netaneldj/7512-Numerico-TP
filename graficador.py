@@ -6,9 +6,11 @@ import metodoRungeKutta
 KMH = 3.6
 G = 9.807
 
-def graficar(titulo, dominio, imagen, x1, y1, x2, y2):
+def graficar(n, titulo, dominio, imagen, x1, y1, x2, y2):
 
-	#plt.plot(x1, y1, linewidth=1, color='c')#, marker='*')
+	if (n==2):
+		plt.plot(x1, y1, linewidth=1, color='c')#, marker='*')
+
 	plt.plot(x2, y2, linewidth=1, color='b')#, marker='o')
 
 	plt.xlabel(dominio)
@@ -29,21 +31,21 @@ def cambio_unidades_aceleracion(aceleracion):
 	return a
 
 def grafico_comparativo():
-	posEuler, velEuler, acelEuler, tiempoEuler = metodoEuler.euler(0.05, 0, 0)
-	posRK4, velRK4, acelRK4, tiempoRK4 = metodoRungeKutta.rungekutta4(0.05, 0, 0)
+	posEuler, velEuler, acelEuler, tiempoEuler = metodoEuler.euler(0.002, 0, 0)
+	posRK4, velRK4, acelRK4, tiempoRK4 = metodoRungeKutta.rungekutta4(0.002, 0, 0)
 
-	graficar("grafico _posicion", "tiempo", "posicion", tiempoEuler, posEuler, tiempoRK4, posRK4)
+	graficar(2, "grafico _posicion", "tiempo", "posicion", tiempoEuler, posEuler, tiempoRK4, posRK4)
 
-	graficar("grafico _velocidad", "tiempo (s)", "velocidad (km/h)", tiempoEuler, cambio_unidades_velocidad(velEuler),
+	graficar(2, "grafico _velocidad", "tiempo (s)", "velocidad (km/h)", tiempoEuler, cambio_unidades_velocidad(velEuler),
 			 tiempoRK4, cambio_unidades_velocidad(velRK4))
-	graficar("grafico _aceleracion", "tiempo (s)", "aceleracion (g)", tiempoEuler, cambio_unidades_aceleracion(acelEuler),
+	graficar(2, "grafico _aceleracion", "tiempo (s)", "aceleracion (g)", tiempoEuler, cambio_unidades_aceleracion(acelEuler),
 			 tiempoRK4, cambio_unidades_aceleracion(acelRK4))
 
 def grafico_simple():
-	y, v, a, t = metodoRungeKutta.rungekutta4(0.05, 0, 0)
-	graficar("grafico _posicion", "tiempo", "posicion", t, y,  t, y)
-	graficar("grafico _velocidad", "tiempo", "velocidad", t, v, t, v)
-	graficar("grafico _aceleracion", "tiempo", "aceleracion", t, a, t, a)
+	y, v, a, t = metodoRungeKutta.rungekutta4(0.002, 0, 0)
+	graficar(1, "grafico _posicion", "tiempo", "posicion", None, None,  t, y)
+	graficar(1, "grafico _velocidad", "tiempo", "velocidad", None, None, t, cambio_unidades_velocidad(v))
+	graficar(1, "grafico _aceleracion", "tiempo", "aceleracion", None, None, t, cambio_unidades_aceleracion(a))
 
 def main():
 
