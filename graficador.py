@@ -34,7 +34,7 @@ def grafico_comparativo():
 	posEuler, velEuler, acelEuler, tiempoEuler = metodoEuler.euler(0.002, 0, 0)
 	posRK4, velRK4, acelRK4, tiempoRK4 = metodoRungeKutta.rungekutta4(0.002, 0, 0)
 
-	graficar(2, "grafico _posicion", "tiempo", "posicion", tiempoEuler, posEuler, tiempoRK4, posRK4)
+	graficar(2, "grafico _posicion", "tiempo (s)", "posicion (m)", tiempoEuler, posEuler, tiempoRK4, posRK4)
 
 	graficar(2, "grafico _velocidad", "tiempo (s)", "velocidad (km/h)", tiempoEuler, cambio_unidades_velocidad(velEuler),
 			 tiempoRK4, cambio_unidades_velocidad(velRK4))
@@ -43,9 +43,9 @@ def grafico_comparativo():
 
 def grafico_simple():
 	y, v, a, t = metodoRungeKutta.rungekutta4(0.002, 0, 0)
-	graficar(1, "grafico _posicion", "tiempo", "posicion", None, None,  t, y)
-	graficar(1, "grafico _velocidad", "tiempo", "velocidad", None, None, t, cambio_unidades_velocidad(v))
-	graficar(1, "grafico _aceleracion", "tiempo", "aceleracion", None, None, t, cambio_unidades_aceleracion(a))
+	graficar(1, "grafico _posicion", "tiempo (s)", "posicion (m)", None, None,  t, y)
+	graficar(1, "grafico _velocidad", "tiempo (s)", "velocidad (km/h)", None, None, t, cambio_unidades_velocidad(v))
+	graficar(1, "grafico _aceleracion", "tiempo (s)", "aceleracion (g)", None, None, t, cambio_unidades_aceleracion(a))
 
 def main():
 
