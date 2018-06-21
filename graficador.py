@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 import metodoEuler
 import metodoRungeKutta
 
+KMH = 3.6
+G = 9.807
+
 def graficar(titulo, dominio, imagen, x1, y1, x2, y2):
 
 	#plt.plot(x1, y1, linewidth=1, color='c')#, marker='*')
@@ -26,8 +29,8 @@ def cambio_unidades_aceleracion(aceleracion):
 	return a
 
 def grafico_comparativo():
-	posEuler, velEuler, acelEuler, tiempoEuler = metodoEuler.euler(0.002, 0, 0)
-	posRK4, velRK4, acelRK4, tiempoRK4 = metodoRungeKutta.rungekutta4(0.1, 0, 0)
+	posEuler, velEuler, acelEuler, tiempoEuler = metodoEuler.euler(0.05, 0, 0)
+	posRK4, velRK4, acelRK4, tiempoRK4 = metodoRungeKutta.rungekutta4(0.05, 0, 0)
 
 	graficar("grafico _posicion", "tiempo", "posicion", tiempoEuler, posEuler, tiempoRK4, posRK4)
 
@@ -37,15 +40,15 @@ def grafico_comparativo():
 			 tiempoRK4, cambio_unidades_aceleracion(acelRK4))
 
 def grafico_simple():
-	y, v, a, t = metodoRungeKutta.rungekutta4(0.001, 0, 0)
+	y, v, a, t = metodoRungeKutta.rungekutta4(0.05, 0, 0)
 	graficar("grafico _posicion", "tiempo", "posicion", t, y,  t, y)
 	graficar("grafico _velocidad", "tiempo", "velocidad", t, v, t, v)
 	graficar("grafico _aceleracion", "tiempo", "aceleracion", t, a, t, a)
 
 def main():
 
-	#grafico_comparativo()
-	grafico_simple()
+	grafico_comparativo()
+	#grafico_simple()
 
 
 
