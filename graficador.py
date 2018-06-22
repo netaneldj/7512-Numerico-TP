@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 
 import metodoEuler
 import metodoRungeKutta
+import metodoRungeKuttaAire
 
 KMH = 3.6
 G = 9.807
@@ -31,15 +32,24 @@ def cambio_unidades_aceleracion(aceleracion):
 	return a
 
 def grafico_comparativo():
-	posEuler, velEuler, acelEuler, tiempoEuler = metodoEuler.euler(0.002, 0, 0)
+	#posEuler, velEuler, acelEuler, tiempoEuler = metodoEuler.euler(0.002, 0, 0)
 	posRK4, velRK4, acelRK4, tiempoRK4 = metodoRungeKutta.rungekutta4(0.002, 0, 0)
+	posRKA4, velRKA4, acelRKA4, tiempoRKA4 = metodoRungeKuttaAire.rungekutta4(0.002, 0, 0)
+	
+	graficar(2, "grafico _posicion", "tiempo (s)", "posicion (m)", tiempoRKA4, posRKA4, tiempoRK4, posRK4)
 
-	graficar(2, "grafico _posicion", "tiempo (s)", "posicion (m)", tiempoEuler, posEuler, tiempoRK4, posRK4)
+	graficar(2, "grafico _velocidad", "tiempo (s)", "velocidad (km/h)", tiempoRKA4, cambio_unidades_velocidad(velRKA4),
+			 tiempoRK4, cambio_unidades_velocidad(velRK4))
+	graficar(2, "grafico _aceleracion", "tiempo (s)", "aceleracion (g)", tiempoRKA4, cambio_unidades_aceleracion(acelRKA4),
+			 tiempoRK4, cambio_unidades_aceleracion(acelRK4))
+
+	
+	'''graficar(2, "grafico _posicion", "tiempo (s)", "posicion (m)", tiempoEuler, posEuler, tiempoRK4, posRK4)
 
 	graficar(2, "grafico _velocidad", "tiempo (s)", "velocidad (km/h)", tiempoEuler, cambio_unidades_velocidad(velEuler),
 			 tiempoRK4, cambio_unidades_velocidad(velRK4))
 	graficar(2, "grafico _aceleracion", "tiempo (s)", "aceleracion (g)", tiempoEuler, cambio_unidades_aceleracion(acelEuler),
-			 tiempoRK4, cambio_unidades_aceleracion(acelRK4))
+			 tiempoRK4, cambio_unidades_aceleracion(acelRK4))'''
 
 def grafico_simple():
 	y, v, a, t = metodoRungeKutta.rungekutta4(0.002, 0, 0)
