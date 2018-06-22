@@ -3,8 +3,8 @@ import math
 G = 9.807
 M = 87.464
 L0 = 51.549
-K1 = 49.366 #49.366 - 9.8 - 21
-K2 = 1 #1 - 1.25 - 1.1
+K1 = 9.8 #49.366 - 9.8 - 21
+K2 = 1.25 #1 - 1.25 - 1.1
 C1 = 4.873
 C2 = 1.5
 
@@ -43,10 +43,10 @@ def rungekutta4(h, y0, v0):
 
 		if hay_un_maximo(posicion, n):
 			oscilacion+=1
-			#print ("{} caida:".format(oscilacion))
-			#print ("Pos:{}   Vel:{}   Acel:{}   T:{}".format(posicion[n - 2],velocidad[n - 2],aceleracion[n - 2],tiempo[n - 2]))
-			#print ("Pos:{}   Vel:{}   Acel:{}   T:{}".format(posicion[n - 1], velocidad[n - 1], aceleracion[n - 1], tiempo[n - 1]))
-			#print ("Pos:{}   Vel:{}   Acel:{}   T:{}".format(posicion[n], velocidad[n], aceleracion[n], tiempo[n]))
+			print ("{} caida:".format(oscilacion))
+			print ("Pos:{}   Vel:{}   Acel:{}   T:{}".format(posicion[n - 2],velocidad[n - 2],aceleracion[n - 2],tiempo[n - 2]))
+			print ("Pos:{}   Vel:{}   Acel:{}   T:{}".format(posicion[n - 1], velocidad[n - 1], aceleracion[n - 1], tiempo[n - 1]))
+			print ("Pos:{}   Vel:{}   Acel:{}   T:{}".format(posicion[n], velocidad[n], aceleracion[n], tiempo[n]))
 
 			if oscilacion == 4:
 				cuarta_oscilacion = True
@@ -75,8 +75,8 @@ def hay_un_maximo(y, n):
 
 def main():
 	y, v, a, t = rungekutta4(0.002,0,0) # intervalo h, posicion inicical, velocidad inicial
-	print "posicion: {}".format(y)
-	print "velocidad: {}".format(v)
-	print "aceleracion: {}".format(a)
+	#print "posicion: {}".format(y)
+	#print "velocidad: {}".format(v)
+	#print "aceleracion: {}".format(a)
 
 main()
