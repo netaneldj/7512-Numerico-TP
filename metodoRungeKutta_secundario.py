@@ -3,8 +3,8 @@ import math
 G = 9.807
 M = 87.464
 L0 = 51.549
-K1 = 49.366  # 49.366 - 9.8 - 21
-K2 = 1  # 1 - 1.25 - 1.1
+K1 = 21 #49.366 - 9.8 - 21
+K2 = 1.1 #1 - 1.25 - 1.1
 C1 = 4.873
 C2 = 1.5
 
@@ -43,8 +43,8 @@ def rungekutta4 (h, y0, v0):
     velocidad.append(v0)
 
     aceleracion = []
-    aceleracion.append(f_aceleracion(y0))
-    #aceleracion.append(f_aceleracion_aire(y0, v0))
+    #aceleracion.append(f_aceleracion(y0))
+    aceleracion.append(f_aceleracion_aire(y0, v0))
 
     oscilacion = 0
     n = 0
@@ -57,8 +57,8 @@ def rungekutta4 (h, y0, v0):
         y, v = ecuacion_iterativa(h, posicion[n], velocidad[n])
         posicion.append(round(y, 5))
         velocidad.append(round(v, 5))
-        aceleracion.append(round(f_aceleracion(y), 5))
-        #aceleracion.append(round(f_aceleracion_aire(y, v), 5))
+    	#aceleracion.append(round(f_aceleracion(y), 5))
+        aceleracion.append(round(f_aceleracion_aire(y, v), 5))
         n+=1
         tiempo.append(round(n * h, 3))
 
@@ -66,19 +66,18 @@ def rungekutta4 (h, y0, v0):
             oscilacion += 1
 
             #print ("{} caida:".format(oscilacion))
-            #print ("Pos:{}   Vel:{}   Acel:{}   T:{}".format(posicion[n - 2],velocidad[n - 2],aceleracion[n - 2],tiempo[n - 2]))
-            #print ("Pos:{}   Vel:{}   Acel:{}   T:{}".format(posicion[n - 1], velocidad[n - 1], aceleracion[n - 1], tiempo[n - 1]))
-            #print ("Pos:{}   Vel:{}   Acel:{}   T:{}".format(posicion[n], velocidad[n], aceleracion[n], tiempo[n]))
+            #print ("Pos:{} Vel:{} Acel:{} T:{}".format(posicion[n - 2], velocidad[n - 2], aceleracion[n - 2], tiempo[n - 2]))
+            #print ("Pos:{} Vel:{} Acel:{} T:{}".format(posicion[n - 1], velocidad[n - 1], aceleracion[n - 1], tiempo[n - 1]))
+            #print ("Pos:{} Vel:{} Acel:{} T:{}".format(posicion[n], velocidad[n], aceleracion[n], tiempo[n]))
 
-            if oscilacion == 120:
-                print posicion[n-1]
+            if oscilacion == 4:
                 cuarta_oscilacion = True
 
     return posicion, velocidad, aceleracion, tiempo
 
 
 def main():
-    y, v, a, t = rungekutta4(0.2, 0, 0)  # intervalo h, posicion inicical, velocidad inicial
+    y, v, a, t = rungekutta4(0.002, 0, 0)  # intervalo h, posicion inicical, velocidad inicial
 #    print "posicion: {}".format(y)
 #    print "velocidad: {}".format(v)
 #    print "aceleracion: {}".format(a)

@@ -35,7 +35,10 @@ def euler(h, y0, v0):
 
 		if hay_un_maximo(posicion, n):
 			oscilacion+=1
-
+			# print ("{} caida:".format(oscilacion))
+			# print ("Pos:{}   Vel:{}   Acel:{}   T:{}".format(posicion[n - 2], velocidad[n - 2], aceleracion[n - 2], tiempo[n - 2]))
+			print ("Pos:{}   Vel:{}   Acel:{}   T:{}".format(posicion[n - 1], velocidad[n - 1], aceleracion[n - 1], tiempo[n - 1]))
+			# print ("Pos:{}   Vel:{}   Acel:{}   T:{}".format(posicion[n], velocidad[n], aceleracion[n], tiempo[n]))
 			if oscilacion == 4:
 				cuarta_oscilacion = True
 
@@ -60,9 +63,9 @@ def hay_un_maximo(y, n):
 def main():
 	y, v, a, t = euler(0.002, 0, 0) # intervalo h, posicion inicical, velocidad inicial
 
-	print ("posicion:", y)
-	print ("velocidad:", v)
-	print ("aceleracion:", a)
-	print ("tiempo:", t)
+#	print ("posicion:", y)
+#	print ("velocidad:", v)
+#	print ("aceleracion:", a)
+#	print ("tiempo:", t)
 
 main()

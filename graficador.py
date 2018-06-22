@@ -2,21 +2,18 @@ import matplotlib.pyplot as plt
 
 import metodoEuler
 import metodoRungeKutta
-import metodoRungeKuttaAire
+import metodoRungeKutta_secundario
+import RK4
 
 KMH = 3.6
 G = 9.807
 
-def graficar(n, titulo, dominio, imagen, x1, y1, x2, y2, x3, y3):
-	
-	if(n==3):
-		plt.plot(x2, y2, linewidth=1, color='b')#, marker='*') Runge Kutta 4!
-		plt.plot(x3,y3,linewidth=1,color='r') #Runge-Kutta 4 Restriccion aceleracion!
-	
-	if (n==2):
-		plt.plot(x2, y2, linewidth=1, color='b')#, marker='*') 
+def graficar(n, titulo, dominio, imagen, x1, y1, x2, y2):
 
-	plt.plot(x1, y1, linewidth=1, color='c')#, marker='o') Euler!
+	if (n==2):
+		plt.plot(x1, y1, linewidth=1, color='b')#, marker='*')
+
+	plt.plot(x2, y2, linewidth=1, color='c')#, marker='o')
 
 	plt.xlabel(dominio)
 	plt.ylabel(imagen)
@@ -36,30 +33,22 @@ def cambio_unidades_aceleracion(aceleracion):
 	return a
 
 def grafico_comparativo():
-	posEuler, velEuler, acelEuler, tiempoEuler = metodoEuler.euler(0.002, 0, 0)
-	posRK4, velRK4, acelRK4, tiempoRK4 = metodoRungeKutta.rungekutta4(0.002, 0, 0)
-	posRKA4, velRKA4, acelRKA4, tiempoRKA4 = metodoRungeKuttaAire.rungekutta4(0.002, 0, 0)
+	pos1, vel1, acel1, tiempo1 = RK4.rungekutta4(0.002, 0, 0)
+	#pos2, vel2, acel2, tiempo2 = metodoEuler.euler(0.002, 0, 0)
+	pos2, vel2, acel2, tiempo2 = metodoRungeKutta_secundario.rungekutta4(0.002, 0, 0)
 	
-	graficar(3, "grafico _posicion", "tiempo (s)", "posicion (m)", tiempoRKA4, posRKA4, tiempoRK4, posRK4, tiempoEuler, posEuler)
+	graficar(2, "grafico _posicion", "tiempo (s)", "posicion (m)", tiempo1, pos1, tiempo2, pos2)
 
-	graficar(3, "grafico _velocidad", "tiempo (s)", "velocidad (km/h)", tiempoRKA4, cambio_unidades_velocidad(velRKA4),
-			 tiempoRK4, cambio_unidades_velocidad(velRK4), tiempoEuler, cambio_unidades_velocidad(velEuler))
-	graficar(3, "grafico _aceleracion", "tiempo (s)", "aceleracion (g)", tiempoRKA4, cambio_unidades_aceleracion(acelRKA4),
-			 tiempoRK4, cambio_unidades_aceleracion(acelRK4), tiempoEuler, cambio_unidades_aceleracion(acelEuler))
-
-	
-	'''graficar(2, "grafico _posicion", "tiempo (s)", "posicion (m)", tiempoEuler, posEuler, tiempoRK4, posRK4)
-
-	graficar(2, "grafico _velocidad", "tiempo (s)", "velocidad (km/h)", tiempoEuler, cambio_unidades_velocidad(velEuler),
-			 tiempoRK4, cambio_unidades_velocidad(velRK4))
-	graficar(2, "grafico _aceleracion", "tiempo (s)", "aceleracion (g)", tiempoEuler, cambio_unidades_aceleracion(acelEuler),
-			 tiempoRK4, cambio_unidades_aceleracion(acelRK4))'''
+	graficar(2, "grafico _velocidad", "tiempo (s)", "velocidad (km/h)", tiempo1, cambio_unidades_velocidad(vel1),
+			 tiempo2, cambio_unidades_velocidad(vel2))
+	graficar(2, "grafico _aceleracion", "tiempo (s)", "aceleracion (g)", tiempo1, cambio_unidades_aceleracion(acel1),
+			 tiempo2, cambio_unidades_aceleracion(acel2))
 
 def grafico_simple():
 	y, v, a, t = metodoRungeKutta.rungekutta4(0.002, 0, 0)
-	graficar(1, "grafico _posicion", "tiempo (s)", "posicion (m)", None, None,  t, y)
-	graficar(1, "grafico _velocidad", "tiempo (s)", "velocidad (km/h)", None, None, t, cambio_unidades_velocidad(v))
-	graficar(1, "grafico _aceleracion", "tiempo (s)", "aceleracion (g)", None, None, t, cambio_unidades_aceleracion(a))
+	graficar(1, "grafico _posicion", "tiempo (s)", "posicion (m)",  t, y, None, None)
+	graficar(1, "grafico _velocidad", "tiempo (s)", "velocidad (km/h)", t, cambio_unidades_velocidad(v), None, None)
+	graficar(1, "grafico _aceleracion", "tiempo (s)", "aceleracion (g)", t, cambio_unidades_aceleracion(a), None, None)
 
 def main():
 
